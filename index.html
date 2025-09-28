@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل الملفات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+            transform: scale(1.02);
+        }
+
+        .input-field::placeholder {
+            color: #aaa;
+            opacity: 0.7;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            color: #888;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .download-btn:not(:disabled) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .download-btn:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:not(:disabled):active {
+            transform: translateY(-1px);
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:not(:disabled):hover::before {
+            left: 100%;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:not(:disabled):hover .icon {
+            transform: translateX(-3px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .input-field, .download-btn {
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .icon {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+
+        [dir="rtl"] .download-btn:not(:disabled):hover .icon {
+            transform: translateX(3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">📁 تحميل الملفات</h1>
+        <p class="subtitle">أدخل رمز الملف لتحميله بسهولة</p>
+        
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="txtbox" 
+                class="input-field" 
+                placeholder="أدخل رمز الملف هنا..."
+                autocomplete="off"
+            >
+        </div>
+        
+        <button id="downloadBtn" class="download-btn" disabled>
+            <span class="icon">⬇️</span>
+            تحميل
+        </button>
+        
+        <p class="footer">سيتم توجيهك إلى صفحة التحميل</p>
+    </div>
+
+    <script>
+        // الحصول على العناصر
+        const txtbox = document.getElementById('txtbox');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // تفعيل/إلغاء تفعيل الزر بناءً على محتوى الحقل
+        function updateButtonState() {
+            const isNotEmpty = txtbox.value.trim() !== '';
+            downloadBtn.disabled = !isNotEmpty;
+        }
+
+        // مراقبة التغييرات في حقل النص
+        txtbox.addEventListener('input', updateButtonState);
+        txtbox.addEventListener('keyup', updateButtonState);
+        txtbox.addEventListener('paste', function() {
+            setTimeout(updateButtonState, 10);
+        });
+
+        // وظيفة التحميل
+        function downloadFile() {
+            const code = txtbox.value.trim();
+            if (code) {
+                const url = `https://toffeeshare.com/c/${code}`;
+                window.open(url, '_blank');
+            }
+        }
+
+        // إضافة مستمع للنقر على الزر
+        downloadBtn.addEventListener('click', downloadFile);
+
+        // إضافة دعم لمفتاح Enter
+        txtbox.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !downloadBtn.disabled) {
+                downloadFile();
+            }
+        });
+
+        // تأثيرات إضافية للتفاعل
+        txtbox.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+
+        txtbox.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+
+        // التحقق من الحالة الأولية
+        updateButtonState();
+    </script>
+</body>
+</html>
